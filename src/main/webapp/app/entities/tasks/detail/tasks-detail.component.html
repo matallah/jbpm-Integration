@@ -1,0 +1,40 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="tasks">
+      <h2 data-cy="tasksDetailsHeading"><span jhiTranslate="jBpmApp.tasks.detail.title">Tasks</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ tasks.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="jBpmApp.tasks.taskId">Task Id</span></dt>
+        <dd>
+          <span>{{ tasks.taskId }}</span>
+        </dd>
+        <dt><span jhiTranslate="jBpmApp.tasks.taskName">Task Name</span></dt>
+        <dd>
+          <span>{{ tasks.taskName }}</span>
+        </dd>
+        <dt><span jhiTranslate="jBpmApp.tasks.taskStatus">Task Status</span></dt>
+        <dd>
+          <span>{{ tasks.taskStatus }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/tasks', tasks.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

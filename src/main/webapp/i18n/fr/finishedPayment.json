@@ -1,0 +1,26 @@
+{
+  "jBpmApp": {
+    "finishedPayment": {
+      "home": {
+        "title": "FinishedPayments",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Finished Payment",
+        "createOrEditLabel": "Créer ou éditer un Finished Payment",
+        "notFound": "Aucun Finished Payment trouvé"
+      },
+      "created": "Un nouveau Finished Payment a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Finished Payment avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Finished Payment avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Finished Payment {{ id }} ?"
+      },
+      "detail": {
+        "title": "Finished Payment"
+      },
+      "id": "ID",
+      "price": "Price",
+      "name": "Name",
+      "approve": "Approve"
+    }
+  }
+}

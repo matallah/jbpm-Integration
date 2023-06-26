@@ -38,6 +38,10 @@ public class CacheConfiguration {
         return cm -> {
             createCache(cm, com.jbpm.integration.repository.UserRepository.USERS_BY_LOGIN_CACHE);
             createCache(cm, com.jbpm.integration.repository.UserRepository.USERS_BY_EMAIL_CACHE);
+            createCache(cm, com.jbpm.integration.domain.ProcessInstances.class.getName());
+            createCache(cm, com.jbpm.integration.domain.Tasks.class.getName());
+            createCache(cm, com.jbpm.integration.domain.FinishedPayment.class.getName());
+            createCache(cm, com.jbpm.integration.domain.OngoingPayment.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

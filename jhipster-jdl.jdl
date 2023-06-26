@@ -1,0 +1,21 @@
+entity ProcessInstances {
+    processInstanceId Integer,
+    processId String,
+    processName String
+}
+entity Tasks {
+    taskId Integer,
+    taskName String,
+    taskStatus String
+}
+entity OngoingPayment {
+    price Float,
+    name String
+}
+entity FinishedPayment {
+    price Float,
+    name String,
+    approve Boolean
+}
+
+

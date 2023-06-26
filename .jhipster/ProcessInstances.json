@@ -1,0 +1,22 @@
+{
+  "applications": "*",
+  "changelogDate": "20230625154831",
+  "entityTableName": "process_instances",
+  "fields": [
+    {
+      "fieldName": "processInstanceId",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "processId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "processName",
+      "fieldType": "String"
+    }
+  ],
+  "name": "ProcessInstances",
+  "relationships": [],
+  "searchEngine": "no"
+}

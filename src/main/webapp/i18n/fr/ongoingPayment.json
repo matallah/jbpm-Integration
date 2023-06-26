@@ -1,0 +1,25 @@
+{
+  "jBpmApp": {
+    "ongoingPayment": {
+      "home": {
+        "title": "OngoingPayments",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Ongoing Payment",
+        "createOrEditLabel": "Créer ou éditer un Ongoing Payment",
+        "notFound": "Aucun Ongoing Payment trouvé"
+      },
+      "created": "Un nouveau Ongoing Payment a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Ongoing Payment avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Ongoing Payment avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Ongoing Payment {{ id }} ?"
+      },
+      "detail": {
+        "title": "Ongoing Payment"
+      },
+      "id": "ID",
+      "price": "Price",
+      "name": "Name"
+    }
+  }
+}

@@ -1,0 +1,40 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="processInstances">
+      <h2 data-cy="processInstancesDetailsHeading"><span jhiTranslate="jBpmApp.processInstances.detail.title">Process Instances</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ processInstances.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="jBpmApp.processInstances.processInstanceId">Process Instance Id</span></dt>
+        <dd>
+          <span>{{ processInstances.processInstanceId }}</span>
+        </dd>
+        <dt><span jhiTranslate="jBpmApp.processInstances.processId">Process Id</span></dt>
+        <dd>
+          <span>{{ processInstances.processId }}</span>
+        </dd>
+        <dt><span jhiTranslate="jBpmApp.processInstances.processName">Process Name</span></dt>
+        <dd>
+          <span>{{ processInstances.processName }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/process-instances', processInstances.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

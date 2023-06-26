@@ -1,0 +1,22 @@
+{
+  "applications": "*",
+  "changelogDate": "20230626142409",
+  "entityTableName": "finished_payment",
+  "fields": [
+    {
+      "fieldName": "price",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "approve",
+      "fieldType": "Boolean"
+    }
+  ],
+  "name": "FinishedPayment",
+  "relationships": [],
+  "searchEngine": "no"
+}

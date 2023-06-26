@@ -1,0 +1,18 @@
+{
+  "applications": "*",
+  "changelogDate": "20230626142410",
+  "entityTableName": "ongoing_payment",
+  "fields": [
+    {
+      "fieldName": "price",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    }
+  ],
+  "name": "OngoingPayment",
+  "relationships": [],
+  "searchEngine": "no"
+}

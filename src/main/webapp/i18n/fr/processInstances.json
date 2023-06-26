@@ -1,0 +1,26 @@
+{
+  "jBpmApp": {
+    "processInstances": {
+      "home": {
+        "title": "ProcessInstances",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Process Instances",
+        "createOrEditLabel": "Créer ou éditer un Process Instances",
+        "notFound": "Aucun Process Instances trouvé"
+      },
+      "created": "Un nouveau Process Instances a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Process Instances avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Process Instances avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Process Instances {{ id }} ?"
+      },
+      "detail": {
+        "title": "Process Instances"
+      },
+      "id": "ID",
+      "processInstanceId": "Process Instance Id",
+      "processId": "Process Id",
+      "processName": "Process Name"
+    }
+  }
+}
