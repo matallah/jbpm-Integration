@@ -1,19 +1,24 @@
 package com.jbpm.integration.web.rest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jbpm.integration.domain.ProcessInstances;
 import com.jbpm.integration.domain.Tasks;
 import com.jbpm.integration.repository.TasksRepository;
+import com.jbpm.integration.service.dto.ProcessInstancesDTO;
+import com.jbpm.integration.service.dto.TasksDTO;
+import com.jbpm.integration.service.dto.TasksList;
 import com.jbpm.integration.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
@@ -23,7 +28,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RestController
 @RequestMapping("/api")
 @Transactional
-public class TasksResource {
+public class TasksResource extends BaseController {
 
     private final Logger log = LoggerFactory.getLogger(TasksResource.class);
 
@@ -34,7 +39,8 @@ public class TasksResource {
 
     private final TasksRepository tasksRepository;
 
-    public TasksResource(TasksRepository tasksRepository) {
+    public TasksResource(RestTemplate restTemplate, TasksRepository tasksRepository) {
+        super(restTemplate);
         this.tasksRepository = tasksRepository;
     }
 
@@ -61,7 +67,7 @@ public class TasksResource {
     /**
      * {@code PUT  /tasks/:id} : Updates an existing tasks.
      *
-     * @param id the id of the tasks to save.
+     * @param id    the id of the tasks to save.
      * @param tasks the tasks to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated tasks,
      * or with status {@code 400 (Bad Request)} if the tasks is not valid,
@@ -93,7 +99,7 @@ public class TasksResource {
     /**
      * {@code PATCH  /tasks/:id} : Partial updates given fields of an existing tasks, field will ignore if it is null
      *
-     * @param id the id of the tasks to save.
+     * @param id    the id of the tasks to save.
      * @param tasks the tasks to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated tasks,
      * or with status {@code 400 (Bad Request)} if the tasks is not valid,
@@ -145,8 +151,28 @@ public class TasksResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of tasks in body.
      */
     @GetMapping("/tasks")
-    public List<Tasks> getAllTasks() {
+    public List<Tasks> getAllTasks() throws JsonProcessingException {
         log.debug("REST request to get all Tasks");
+        List<ProcessInstances> allProcess = getAllProcess();
+        List<TasksDTO> allTasks = new ArrayList<>();
+
+        for (ProcessInstances process : allProcess) {
+            String url = baseJbpmURI + "/server/queries/tasks/instances/process/" + process.getProcessInstanceId();
+            ResponseEntity<String> exchange = restTemplate.exchange(url, HttpMethod.GET, API(), String.class);
+            ObjectMapper objectMapper = new ObjectMapper();
+            TasksList tasksList = objectMapper.readValue(exchange.getBody(), TasksList.class);
+            List<TasksDTO> tasksDTOS = tasksList.getTasksDTOS();
+            allTasks.addAll(tasksDTOS);
+        }
+
+        tasksRepository.deleteAll();
+        for (TasksDTO tasksDTO : allTasks) {
+            Tasks tasks = new Tasks();
+            tasks.setTaskId(tasksDTO.getTaskId());
+            tasks.setTaskName(tasksDTO.getTaskName());
+            tasks.setTaskStatus(tasksDTO.getTaskStatus());
+            tasksRepository.save(tasks);
+        }
         return tasksRepository.findAll();
     }
 

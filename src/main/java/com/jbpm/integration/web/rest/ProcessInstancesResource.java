@@ -1,19 +1,18 @@
 package com.jbpm.integration.web.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jbpm.integration.domain.ProcessInstances;
 import com.jbpm.integration.repository.ProcessInstancesRepository;
-import com.jbpm.integration.service.dto.ProcessInstancesDTO;
 import com.jbpm.integration.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -156,31 +155,8 @@ public class ProcessInstancesResource extends BaseController {
     @GetMapping("/process-instances")
     public List<ProcessInstances> getAllProcessInstances() throws JsonProcessingException, JsonProcessingException {
         log.debug("REST request to get all ProcessInstances");
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("Accept", MediaType.APPLICATION_JSON_VALUE);
-        String authStr = userName + ":" + password;
-        String base64AuthStr = Base64.getEncoder().encodeToString(authStr.getBytes());
-        httpHeaders.set("Authorization", "Basic " + base64AuthStr);
-        HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
-        String url = jbpmEndPoint + containerID + "/processes/instances/";
-        ResponseEntity<String> exchange = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
-        ObjectMapper objectMapper = new ObjectMapper();
-        com.jbpm.integration.service.dto.Process process = objectMapper.readValue(
-            exchange.getBody(),
-            com.jbpm.integration.service.dto.Process.class
-        );
-        List<ProcessInstancesDTO> processInstance = process.getProcessInstance();
         processInstancesRepository.deleteAll();
-        List<ProcessInstances> processInstancesList = new ArrayList<>();
-        for (int i = 0, processInstanceSize = processInstance.size(); i < processInstanceSize; i++) {
-            ProcessInstances processInstances = new ProcessInstances();
-            ProcessInstancesDTO instances = processInstance.get(i);
-            processInstances.setProcessId(instances.getProcessId());
-            processInstances.setProcessName(instances.getProcessName());
-            processInstances.setProcessInstanceId(instances.getProcessInstanceId());
-            processInstancesRepository.save(processInstances);
-            processInstancesList.add(processInstances);
-        }
+        getAllProcess().forEach(processInstancesRepository::save);
         //return processInstancesList;
         return processInstancesRepository.findAll();
     }
