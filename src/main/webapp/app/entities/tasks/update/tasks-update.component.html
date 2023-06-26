@@ -34,6 +34,16 @@
             formControlName="taskStatus"
           />
         </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="jBpmApp.tasks.price" for="field_price">Price</label>
+          <input type="number" class="form-control" name="price" id="field_price" data-cy="price" formControlName="price" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="jBpmApp.tasks.approve" for="field_approve">Approve</label>
+          <input type="checkbox" class="form-check" name="approve" id="field_approve" data-cy="approve" formControlName="approve" />
+        </div>
       </div>
 
       <div>

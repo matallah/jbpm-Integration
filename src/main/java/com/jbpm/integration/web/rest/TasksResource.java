@@ -5,13 +5,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jbpm.integration.domain.ProcessInstances;
 import com.jbpm.integration.domain.Tasks;
 import com.jbpm.integration.repository.TasksRepository;
-import com.jbpm.integration.service.dto.ProcessInstancesDTO;
 import com.jbpm.integration.service.dto.TasksDTO;
 import com.jbpm.integration.service.dto.TasksList;
 import com.jbpm.integration.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -78,6 +80,18 @@ public class TasksResource extends BaseController {
     public ResponseEntity<Tasks> updateTasks(@PathVariable(value = "id", required = false) final Long id, @RequestBody Tasks tasks)
         throws URISyntaxException {
         log.debug("REST request to update Tasks : {}, {}", id, tasks);
+        ///server/containers/Payment_1.0.0-SNAPSHOT/tasks/states/claimed?taskId=4
+        ///server/containers/Payment_1.0.0-SNAPSHOT/tasks/{taskInstanceId}/states/started
+        String claim = baseJbpmURI + "/server/containers/" + containerID + "/tasks/states/claimed?taskId=" + tasks.getTaskId();
+        String start = baseJbpmURI + "/server/containers/" + containerID + "/tasks/" + tasks.getTaskId() + "/states/started";
+        String responseClaim = restTemplate.postForObject(claim, "", String.class);
+        // Define the payload data to be sent in the request
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> requestEntity = new HttpEntity<>("", headers);
+        restTemplate.put(start, requestEntity);
+        System.out.println(responseClaim);
+
         if (tasks.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -133,6 +147,12 @@ public class TasksResource extends BaseController {
                 }
                 if (tasks.getTaskStatus() != null) {
                     existingTasks.setTaskStatus(tasks.getTaskStatus());
+                }
+                if (tasks.getPrice() != null) {
+                    existingTasks.setPrice(tasks.getPrice());
+                }
+                if (tasks.getApprove() != null) {
+                    existingTasks.setApprove(tasks.getApprove());
                 }
 
                 return existingTasks;

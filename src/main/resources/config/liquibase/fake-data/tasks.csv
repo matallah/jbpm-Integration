@@ -1,11 +1,11 @@
-id;task_id;task_name;task_status
-1;52368;Lead Bergnaum Classical;female Loan
-2;94522;Bike Cargo ah;salmon Gaithersburg Bicycle
-3;25237;superintend next Engineer;because
-4;40538;silver Station Bicycle;functionalities Karlee CLI
-5;63131;deposit;bypass
-6;23474;Future Northwest;Leuschke whoa card
-7;31328;Buckinghamshire;Human Idaho bluetooth
-8;87739;Account Port ugh;blue animated firmware
-9;82036;array regional Casa;Topeka
-10;24823;black Ergonomic unleash;can
+id;task_id;task_name;task_status;price;approve
+1;52368;Lead Bergnaum Classical;female Loan;94522;true
+2;20483;Cargo;Trigender;29897;true
+3;16946;Gaithersburg Bicycle;wolf;87753;true
+4;59783;Fresh ack clap;Southwest Accounts;27519;true
+5;89625;curiously;back CLI;63131;false
+6;45203;Granite;Sleek;64837;false
+7;28108;Northwest consequently firewall;Southwest Louisiana;35600;true
+8;32898;Steel;readily continually Recycled;65164;true
+9;86714;male Port;reboot blue animated;38256;false
+10;82036;array regional Casa;Topeka;24823;true

@@ -6,7 +6,10 @@ entity ProcessInstances {
 entity Tasks {
     taskId Integer,
     taskName String,
-    taskStatus String
+    taskStatus String,
+    name String,
+    price Float,
+    approve Boolean
 }
 entity OngoingPayment {
     price Float,

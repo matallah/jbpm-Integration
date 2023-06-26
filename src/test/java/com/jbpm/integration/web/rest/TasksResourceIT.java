@@ -1,5 +1,6 @@
 package com.jbpm.integration.web.rest;
 
+import static com.jbpm.integration.web.rest.TestUtil.sameNumber;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -9,6 +10,7 @@ import com.jbpm.integration.IntegrationTest;
 import com.jbpm.integration.domain.Tasks;
 import com.jbpm.integration.repository.TasksRepository;
 import jakarta.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -38,6 +40,12 @@ class TasksResourceIT {
     private static final String DEFAULT_TASK_STATUS = "AAAAAAAAAA";
     private static final String UPDATED_TASK_STATUS = "BBBBBBBBBB";
 
+    private static final BigDecimal DEFAULT_PRICE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_PRICE = new BigDecimal(2);
+
+    private static final Boolean DEFAULT_APPROVE = false;
+    private static final Boolean UPDATED_APPROVE = true;
+
     private static final String ENTITY_API_URL = "/api/tasks";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -62,7 +70,12 @@ class TasksResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Tasks createEntity(EntityManager em) {
-        Tasks tasks = new Tasks().taskId(DEFAULT_TASK_ID).taskName(DEFAULT_TASK_NAME).taskStatus(DEFAULT_TASK_STATUS);
+        Tasks tasks = new Tasks()
+            .taskId(DEFAULT_TASK_ID)
+            .taskName(DEFAULT_TASK_NAME)
+            .taskStatus(DEFAULT_TASK_STATUS)
+            .price(DEFAULT_PRICE)
+            .approve(DEFAULT_APPROVE);
         return tasks;
     }
 
@@ -73,7 +86,12 @@ class TasksResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Tasks createUpdatedEntity(EntityManager em) {
-        Tasks tasks = new Tasks().taskId(UPDATED_TASK_ID).taskName(UPDATED_TASK_NAME).taskStatus(UPDATED_TASK_STATUS);
+        Tasks tasks = new Tasks()
+            .taskId(UPDATED_TASK_ID)
+            .taskName(UPDATED_TASK_NAME)
+            .taskStatus(UPDATED_TASK_STATUS)
+            .price(UPDATED_PRICE)
+            .approve(UPDATED_APPROVE);
         return tasks;
     }
 
@@ -98,6 +116,8 @@ class TasksResourceIT {
         assertThat(testTasks.getTaskId()).isEqualTo(DEFAULT_TASK_ID);
         assertThat(testTasks.getTaskName()).isEqualTo(DEFAULT_TASK_NAME);
         assertThat(testTasks.getTaskStatus()).isEqualTo(DEFAULT_TASK_STATUS);
+        assertThat(testTasks.getPrice()).isEqualByComparingTo(DEFAULT_PRICE);
+        assertThat(testTasks.getApprove()).isEqualTo(DEFAULT_APPROVE);
     }
 
     @Test
@@ -132,7 +152,9 @@ class TasksResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(tasks.getId().intValue())))
             .andExpect(jsonPath("$.[*].taskId").value(hasItem(DEFAULT_TASK_ID)))
             .andExpect(jsonPath("$.[*].taskName").value(hasItem(DEFAULT_TASK_NAME)))
-            .andExpect(jsonPath("$.[*].taskStatus").value(hasItem(DEFAULT_TASK_STATUS)));
+            .andExpect(jsonPath("$.[*].taskStatus").value(hasItem(DEFAULT_TASK_STATUS)))
+            .andExpect(jsonPath("$.[*].price").value(hasItem(sameNumber(DEFAULT_PRICE))))
+            .andExpect(jsonPath("$.[*].approve").value(hasItem(DEFAULT_APPROVE.booleanValue())));
     }
 
     @Test
@@ -149,7 +171,9 @@ class TasksResourceIT {
             .andExpect(jsonPath("$.id").value(tasks.getId().intValue()))
             .andExpect(jsonPath("$.taskId").value(DEFAULT_TASK_ID))
             .andExpect(jsonPath("$.taskName").value(DEFAULT_TASK_NAME))
-            .andExpect(jsonPath("$.taskStatus").value(DEFAULT_TASK_STATUS));
+            .andExpect(jsonPath("$.taskStatus").value(DEFAULT_TASK_STATUS))
+            .andExpect(jsonPath("$.price").value(sameNumber(DEFAULT_PRICE)))
+            .andExpect(jsonPath("$.approve").value(DEFAULT_APPROVE.booleanValue()));
     }
 
     @Test
@@ -171,7 +195,12 @@ class TasksResourceIT {
         Tasks updatedTasks = tasksRepository.findById(tasks.getId()).get();
         // Disconnect from session so that the updates on updatedTasks are not directly saved in db
         em.detach(updatedTasks);
-        updatedTasks.taskId(UPDATED_TASK_ID).taskName(UPDATED_TASK_NAME).taskStatus(UPDATED_TASK_STATUS);
+        updatedTasks
+            .taskId(UPDATED_TASK_ID)
+            .taskName(UPDATED_TASK_NAME)
+            .taskStatus(UPDATED_TASK_STATUS)
+            .price(UPDATED_PRICE)
+            .approve(UPDATED_APPROVE);
 
         restTasksMockMvc
             .perform(
@@ -188,6 +217,8 @@ class TasksResourceIT {
         assertThat(testTasks.getTaskId()).isEqualTo(UPDATED_TASK_ID);
         assertThat(testTasks.getTaskName()).isEqualTo(UPDATED_TASK_NAME);
         assertThat(testTasks.getTaskStatus()).isEqualTo(UPDATED_TASK_STATUS);
+        assertThat(testTasks.getPrice()).isEqualByComparingTo(UPDATED_PRICE);
+        assertThat(testTasks.getApprove()).isEqualTo(UPDATED_APPROVE);
     }
 
     @Test
@@ -258,7 +289,7 @@ class TasksResourceIT {
         Tasks partialUpdatedTasks = new Tasks();
         partialUpdatedTasks.setId(tasks.getId());
 
-        partialUpdatedTasks.taskName(UPDATED_TASK_NAME).taskStatus(UPDATED_TASK_STATUS);
+        partialUpdatedTasks.taskName(UPDATED_TASK_NAME).taskStatus(UPDATED_TASK_STATUS).price(UPDATED_PRICE).approve(UPDATED_APPROVE);
 
         restTasksMockMvc
             .perform(
@@ -275,6 +306,8 @@ class TasksResourceIT {
         assertThat(testTasks.getTaskId()).isEqualTo(DEFAULT_TASK_ID);
         assertThat(testTasks.getTaskName()).isEqualTo(UPDATED_TASK_NAME);
         assertThat(testTasks.getTaskStatus()).isEqualTo(UPDATED_TASK_STATUS);
+        assertThat(testTasks.getPrice()).isEqualByComparingTo(UPDATED_PRICE);
+        assertThat(testTasks.getApprove()).isEqualTo(UPDATED_APPROVE);
     }
 
     @Test
@@ -289,7 +322,12 @@ class TasksResourceIT {
         Tasks partialUpdatedTasks = new Tasks();
         partialUpdatedTasks.setId(tasks.getId());
 
-        partialUpdatedTasks.taskId(UPDATED_TASK_ID).taskName(UPDATED_TASK_NAME).taskStatus(UPDATED_TASK_STATUS);
+        partialUpdatedTasks
+            .taskId(UPDATED_TASK_ID)
+            .taskName(UPDATED_TASK_NAME)
+            .taskStatus(UPDATED_TASK_STATUS)
+            .price(UPDATED_PRICE)
+            .approve(UPDATED_APPROVE);
 
         restTasksMockMvc
             .perform(
@@ -306,6 +344,8 @@ class TasksResourceIT {
         assertThat(testTasks.getTaskId()).isEqualTo(UPDATED_TASK_ID);
         assertThat(testTasks.getTaskName()).isEqualTo(UPDATED_TASK_NAME);
         assertThat(testTasks.getTaskStatus()).isEqualTo(UPDATED_TASK_STATUS);
+        assertThat(testTasks.getPrice()).isEqualByComparingTo(UPDATED_PRICE);
+        assertThat(testTasks.getApprove()).isEqualTo(UPDATED_APPROVE);
     }
 
     @Test

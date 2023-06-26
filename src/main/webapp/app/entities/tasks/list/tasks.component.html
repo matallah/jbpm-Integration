@@ -56,6 +56,18 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="price">
+            <div class="d-flex">
+              <span jhiTranslate="jBpmApp.tasks.price">Price</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="approve">
+            <div class="d-flex">
+              <span jhiTranslate="jBpmApp.tasks.approve">Approve</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -67,6 +79,8 @@
           <td>{{ tasks.taskId }}</td>
           <td>{{ tasks.taskName }}</td>
           <td>{{ tasks.taskStatus }}</td>
+          <td>{{ tasks.price }}</td>
+          <td>{{ tasks.approve }}</td>
           <td class="text-end">
             <div class="btn-group">
               <button type="submit" [routerLink]="['/tasks', tasks.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">

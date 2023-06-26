@@ -14,6 +14,14 @@
     {
       "fieldName": "taskStatus",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "price",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "approve",
+      "fieldType": "Boolean"
     }
   ],
   "name": "Tasks",

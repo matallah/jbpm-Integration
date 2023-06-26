@@ -14,13 +14,15 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type TasksFormGroupInput = ITasks | PartialWithRequiredKeyOf<NewTasks>;
 
-type TasksFormDefaults = Pick<NewTasks, 'id'>;
+type TasksFormDefaults = Pick<NewTasks, 'id' | 'approve'>;
 
 type TasksFormGroupContent = {
   id: FormControl<ITasks['id'] | NewTasks['id']>;
   taskId: FormControl<ITasks['taskId']>;
   taskName: FormControl<ITasks['taskName']>;
   taskStatus: FormControl<ITasks['taskStatus']>;
+  price: FormControl<ITasks['price']>;
+  approve: FormControl<ITasks['approve']>;
 };
 
 export type TasksFormGroup = FormGroup<TasksFormGroupContent>;
@@ -43,6 +45,8 @@ export class TasksFormService {
       taskId: new FormControl(tasksRawValue.taskId),
       taskName: new FormControl(tasksRawValue.taskName),
       taskStatus: new FormControl(tasksRawValue.taskStatus),
+      price: new FormControl(tasksRawValue.price),
+      approve: new FormControl(tasksRawValue.approve),
     });
   }
 
@@ -63,6 +67,7 @@ export class TasksFormService {
   private getFormDefaults(): TasksFormDefaults {
     return {
       id: null,
+      approve: false,
     };
   }
 }

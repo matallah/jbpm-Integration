@@ -2,6 +2,7 @@ package com.jbpm.integration.domain;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * A Tasks.
@@ -27,6 +28,12 @@ public class Tasks implements Serializable {
 
     @Column(name = "task_status")
     private String taskStatus;
+
+    @Column(name = "price", precision = 21, scale = 2)
+    private BigDecimal price;
+
+    @Column(name = "approve")
+    private Boolean approve;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -82,6 +89,32 @@ public class Tasks implements Serializable {
         this.taskStatus = taskStatus;
     }
 
+    public BigDecimal getPrice() {
+        return this.price;
+    }
+
+    public Tasks price(BigDecimal price) {
+        this.setPrice(price);
+        return this;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public Boolean getApprove() {
+        return this.approve;
+    }
+
+    public Tasks approve(Boolean approve) {
+        this.setApprove(approve);
+        return this;
+    }
+
+    public void setApprove(Boolean approve) {
+        this.approve = approve;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -109,6 +142,8 @@ public class Tasks implements Serializable {
             ", taskId=" + getTaskId() +
             ", taskName='" + getTaskName() + "'" +
             ", taskStatus='" + getTaskStatus() + "'" +
+            ", price=" + getPrice() +
+            ", approve='" + getApprove() + "'" +
             "}";
     }
 }

@@ -26,6 +26,14 @@
         <dd>
           <span>{{ tasks.taskStatus }}</span>
         </dd>
+        <dt><span jhiTranslate="jBpmApp.tasks.price">Price</span></dt>
+        <dd>
+          <span>{{ tasks.price }}</span>
+        </dd>
+        <dt><span jhiTranslate="jBpmApp.tasks.approve">Approve</span></dt>
+        <dd>
+          <span>{{ tasks.approve }}</span>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
