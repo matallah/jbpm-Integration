@@ -7,7 +7,7 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TasksDTO implements Serializable {
 
-    @JsonProperty(" task-id")
+    @JsonProperty("task-id")
     private int taskId;
 
     @JsonProperty("task-name")
