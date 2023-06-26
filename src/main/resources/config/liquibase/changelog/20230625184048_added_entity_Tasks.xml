@@ -29,6 +29,9 @@
             <column name="approve" type="boolean">
                 <constraints nullable="true" />
             </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>
@@ -55,6 +58,7 @@
             <column name="task_status" type="string"/>
             <column name="price" type="numeric"/>
             <column name="approve" type="boolean"/>
+            <column name="name" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

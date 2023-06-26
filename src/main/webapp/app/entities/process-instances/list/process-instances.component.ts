@@ -73,6 +73,14 @@ export class ProcessInstancesComponent implements OnInit {
     });
   }
 
+  load2(): void {
+    this.loadFromBackendWithRouteInformations2().subscribe({
+      next: (res: EntityArrayResponseType) => {
+        this.onResponseSuccess(res);
+      },
+    });
+  }
+
   navigateToWithComponentValues(): void {
     this.handleNavigation(this.predicate, this.ascending);
   }
@@ -81,6 +89,13 @@ export class ProcessInstancesComponent implements OnInit {
     return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
       tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
       switchMap(() => this.queryBackend(this.predicate, this.ascending))
+    );
+  }
+
+  protected loadFromBackendWithRouteInformations2(): Observable<EntityArrayResponseType> {
+    return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
+      tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
+      switchMap(() => this.queryBackend2(this.predicate, this.ascending))
     );
   }
 
@@ -109,6 +124,14 @@ export class ProcessInstancesComponent implements OnInit {
       sort: this.getSortQueryParam(predicate, ascending),
     };
     return this.processInstancesService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
+  }
+
+  protected queryBackend2(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType> {
+    this.isLoading = true;
+    const queryObject: any = {
+      sort: this.getSortQueryParam(predicate, ascending),
+    };
+    return this.processInstancesService.query2(queryObject).pipe(tap(() => (this.isLoading = false)));
   }
 
   protected handleNavigation(predicate?: string, ascending?: boolean): void {

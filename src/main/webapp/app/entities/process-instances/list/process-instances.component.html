@@ -8,15 +8,20 @@
         <span jhiTranslate="jBpmApp.processInstances.home.refreshListLabel">Refresh list</span>
       </button>
 
-      <button
-        id="jh-create-entity"
-        data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-process-instances"
-        [routerLink]="['/process-instances/new']"
-      >
-        <fa-icon icon="plus"></fa-icon>
+      <button class="btn btn-info me-2" (click)="load2()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span jhiTranslate="jBpmApp.processInstances.home.createLabel"> Create a new Process Instances </span>
       </button>
+
+      <!--      <button-->
+      <!--        id="jh-create-entity"-->
+      <!--        data-cy="entityCreateButton"-->
+      <!--        class="btn btn-primary jh-create-entity create-process-instances"-->
+      <!--        [routerLink]="['/process-instances/new']"-->
+      <!--      >-->
+      <!--        <fa-icon icon="plus"></fa-icon>-->
+      <!--        <span jhiTranslate="jBpmApp.processInstances.home.createLabel"> Create a new Process Instances </span>-->
+      <!--      </button>-->
     </div>
   </h2>
 
@@ -79,20 +84,20 @@
                 <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
               </button>
 
-              <button
-                type="submit"
-                [routerLink]="['/process-instances', processInstances.id, 'edit']"
-                class="btn btn-primary btn-sm"
-                data-cy="entityEditButton"
-              >
-                <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-              </button>
+              <!--              <button-->
+              <!--                type="submit"-->
+              <!--                [routerLink]="['/process-instances', processInstances.id, 'edit']"-->
+              <!--                class="btn btn-primary btn-sm"-->
+              <!--                data-cy="entityEditButton"-->
+              <!--              >-->
+              <!--                <fa-icon icon="pencil-alt"></fa-icon>-->
+              <!--                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>-->
+              <!--              </button>-->
 
-              <button type="submit" (click)="delete(processInstances)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-              </button>
+              <!--              <button type="submit" (click)="delete(processInstances)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">-->
+              <!--                <fa-icon icon="times"></fa-icon>-->
+              <!--                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>-->
+              <!--              </button>-->
             </div>
           </td>
         </tr>

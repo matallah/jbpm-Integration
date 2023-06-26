@@ -34,6 +34,16 @@ public class BaseController {
         return new HttpEntity<>(httpHeaders);
     }
 
+    protected HttpHeaders API2() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        String authStr = userName + ":" + password;
+        String base64AuthStr = Base64.getEncoder().encodeToString(authStr.getBytes());
+        httpHeaders.set("Authorization", "Basic " + base64AuthStr);
+        return httpHeaders;
+    }
+
     protected List<ProcessInstances> getAllProcess() {
         String url = jbpmEndPoint + containerID + "/processes/instances/";
         ResponseEntity<String> exchange = restTemplate.exchange(url, HttpMethod.GET, API(), String.class);

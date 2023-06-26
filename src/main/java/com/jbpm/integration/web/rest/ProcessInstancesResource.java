@@ -12,6 +12,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -155,6 +156,19 @@ public class ProcessInstancesResource extends BaseController {
     @GetMapping("/process-instances")
     public List<ProcessInstances> getAllProcessInstances() throws JsonProcessingException, JsonProcessingException {
         log.debug("REST request to get all ProcessInstances");
+        processInstancesRepository.deleteAll();
+        getAllProcess().forEach(processInstancesRepository::save);
+        //return processInstancesList;
+        return processInstancesRepository.findAll();
+    }
+
+    @GetMapping("/process-instances-new")
+    public List<ProcessInstances> getAllProcessInstancesNew() throws JsonProcessingException, JsonProcessingException {
+        log.debug("REST request to get all ProcessInstances");
+        ///server/containers/{containerId}/processes/{processId}/instances
+        String claim = baseJbpmURI + "server/containers/" + containerID + "/processes/Payment.Payment/instances";
+        String responseClaim = restTemplate.postForObject(claim, new HttpEntity<>("", API2()), String.class);
+
         processInstancesRepository.deleteAll();
         getAllProcess().forEach(processInstancesRepository::save);
         //return processInstancesList;

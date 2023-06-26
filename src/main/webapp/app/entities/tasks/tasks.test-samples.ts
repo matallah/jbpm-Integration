@@ -1,22 +1,24 @@
 import { ITasks, NewTasks } from './tasks.model';
 
 export const sampleWithRequiredData: ITasks = {
-  id: 80259,
+  id: 44797,
 };
 
 export const sampleWithPartialData: ITasks = {
-  id: 41198,
-  taskName: 'female Mouse Savings',
-  taskStatus: 'Rustic',
+  id: 71221,
+  taskId: 11276,
+  taskName: 'Tools',
+  name: 'Bedfordshire',
 };
 
 export const sampleWithFullData: ITasks = {
-  id: 9609,
-  taskId: 40670,
-  taskName: 'Southwest Cargo Madera',
-  taskStatus: 'incentivize Account',
-  price: 89130,
+  id: 22679,
+  taskId: 13800,
+  taskName: 'Credit',
+  taskStatus: 'Cargo Madera Hong',
+  price: 41896,
   approve: false,
+  name: 'easily Organized Cambridgeshire',
 };
 
 export const sampleWithNewData: NewTasks = {

@@ -25,6 +25,7 @@ describe('Tasks Form Service', () => {
             taskStatus: expect.any(Object),
             price: expect.any(Object),
             approve: expect.any(Object),
+            name: expect.any(Object),
           })
         );
       });
@@ -40,6 +41,7 @@ describe('Tasks Form Service', () => {
             taskStatus: expect.any(Object),
             price: expect.any(Object),
             approve: expect.any(Object),
+            name: expect.any(Object),
           })
         );
       });

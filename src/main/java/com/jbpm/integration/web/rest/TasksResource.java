@@ -2,8 +2,10 @@ package com.jbpm.integration.web.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jbpm.integration.domain.FinishedPayment;
 import com.jbpm.integration.domain.ProcessInstances;
 import com.jbpm.integration.domain.Tasks;
+import com.jbpm.integration.repository.FinishedPaymentRepository;
 import com.jbpm.integration.repository.TasksRepository;
 import com.jbpm.integration.service.dto.TasksDTO;
 import com.jbpm.integration.service.dto.TasksList;
@@ -20,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -40,10 +43,12 @@ public class TasksResource extends BaseController {
     private String applicationName;
 
     private final TasksRepository tasksRepository;
+    private final FinishedPaymentRepository finishedPaymentRepository;
 
-    public TasksResource(RestTemplate restTemplate, TasksRepository tasksRepository) {
+    public TasksResource(RestTemplate restTemplate, TasksRepository tasksRepository, FinishedPaymentRepository finishedPaymentRepository) {
         super(restTemplate);
         this.tasksRepository = tasksRepository;
+        this.finishedPaymentRepository = finishedPaymentRepository;
     }
 
     /**
@@ -78,19 +83,45 @@ public class TasksResource extends BaseController {
      */
     @PutMapping("/tasks/{id}")
     public ResponseEntity<Tasks> updateTasks(@PathVariable(value = "id", required = false) final Long id, @RequestBody Tasks tasks)
-        throws URISyntaxException {
+        throws URISyntaxException, JsonProcessingException {
         log.debug("REST request to update Tasks : {}, {}", id, tasks);
         ///server/containers/Payment_1.0.0-SNAPSHOT/tasks/states/claimed?taskId=4
         ///server/containers/Payment_1.0.0-SNAPSHOT/tasks/{taskInstanceId}/states/started
-        String claim = baseJbpmURI + "/server/containers/" + containerID + "/tasks/states/claimed?taskId=" + tasks.getTaskId();
-        String start = baseJbpmURI + "/server/containers/" + containerID + "/tasks/" + tasks.getTaskId() + "/states/started";
-        String responseClaim = restTemplate.postForObject(claim, "", String.class);
+        ///server/containers/Payment_1.0.0-SNAPSHOT/tasks/{taskInstanceId}/states/completed
+        String claim = baseJbpmURI + "server/containers/" + containerID + "/tasks/states/claimed?taskId=" + tasks.getTaskId();
+        String start = baseJbpmURI + "server/containers/" + containerID + "/tasks/" + tasks.getTaskId() + "/states/started";
+        String compl = baseJbpmURI + "server/containers/" + containerID + "/tasks/" + tasks.getTaskId() + "/states/completed";
+        try {
+            String responseClaim = restTemplate.postForObject(claim, new HttpEntity<>("", API2()), String.class);
+            System.out.println(responseClaim);
+        } catch (HttpClientErrorException ignored) {
+            System.out.println(ignored.getMessage());
+        }
         // Define the payload data to be sent in the request
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> requestEntity = new HttpEntity<>("", headers);
-        restTemplate.put(start, requestEntity);
-        System.out.println(responseClaim);
+        HttpEntity<String> requestEntity = new HttpEntity<>("", API2());
+        try {
+            restTemplate.put(start, requestEntity);
+        } catch (HttpClientErrorException ignored) {
+            System.out.println(ignored.getMessage());
+        }
+
+        TasksDTO tasksDTO = new TasksDTO(tasks.getName(), tasks.getPrice(), tasks.getApprove() != null && tasks.getApprove());
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(tasksDTO);
+        HttpEntity<String> requestEntity1 = new HttpEntity<>(json, API2());
+        try {
+            //restTemplate.put(compl, requestEntity1);
+            restTemplate.put(compl, requestEntity1);
+        } catch (HttpClientErrorException ignored) {
+            System.out.println(ignored.getMessage());
+        }
+        if (tasks.getTaskName().equals("Payment Approval")) {
+            FinishedPayment finishedPayment = new FinishedPayment();
+            finishedPayment.setName(tasksDTO.getName());
+            finishedPayment.setApprove(tasksDTO.getApprove());
+            finishedPayment.setPrice(tasksDTO.getPrice().floatValue());
+            finishedPaymentRepository.save(finishedPayment);
+        }
 
         if (tasks.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -154,6 +185,9 @@ public class TasksResource extends BaseController {
                 if (tasks.getApprove() != null) {
                     existingTasks.setApprove(tasks.getApprove());
                 }
+                if (tasks.getName() != null) {
+                    existingTasks.setName(tasks.getName());
+                }
 
                 return existingTasks;
             })
@@ -188,9 +222,17 @@ public class TasksResource extends BaseController {
         tasksRepository.deleteAll();
         for (TasksDTO tasksDTO : allTasks) {
             Tasks tasks = new Tasks();
+            ///server/containers/{containerId}/tasks/{taskInstanceId}/contents/input
+            String url = jbpmEndPoint + containerID + "/tasks/" + tasksDTO.getTaskId() + "/contents/input";
+            ResponseEntity<String> exchange = restTemplate.exchange(url, HttpMethod.GET, API(), String.class);
+            ObjectMapper objectMapper = new ObjectMapper();
+            TasksDTO tasksDTOo = objectMapper.readValue(exchange.getBody(), TasksDTO.class);
             tasks.setTaskId(tasksDTO.getTaskId());
             tasks.setTaskName(tasksDTO.getTaskName());
             tasks.setTaskStatus(tasksDTO.getTaskStatus());
+            tasks.setApprove(tasksDTOo.getApprove());
+            tasks.setName(tasksDTOo.getName());
+            tasks.setPrice(tasksDTOo.getPrice());
             tasksRepository.save(tasks);
         }
         return tasksRepository.findAll();

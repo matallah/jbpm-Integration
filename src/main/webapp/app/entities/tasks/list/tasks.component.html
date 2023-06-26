@@ -8,15 +8,15 @@
         <span jhiTranslate="jBpmApp.tasks.home.refreshListLabel">Refresh list</span>
       </button>
 
-      <button
-        id="jh-create-entity"
-        data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-tasks"
-        [routerLink]="['/tasks/new']"
-      >
-        <fa-icon icon="plus"></fa-icon>
-        <span jhiTranslate="jBpmApp.tasks.home.createLabel"> Create a new Tasks </span>
-      </button>
+      <!--      <button-->
+      <!--        id="jh-create-entity"-->
+      <!--        data-cy="entityCreateButton"-->
+      <!--        class="btn btn-primary jh-create-entity create-tasks"-->
+      <!--        [routerLink]="['/tasks/new']"-->
+      <!--      >-->
+      <!--        <fa-icon icon="plus"></fa-icon>-->
+      <!--        <span jhiTranslate="jBpmApp.tasks.home.createLabel"> Create a new Tasks </span>-->
+      <!--      </button>-->
     </div>
   </h2>
 
@@ -68,6 +68,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="name">
+            <div class="d-flex">
+              <span jhiTranslate="jBpmApp.tasks.name">Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -81,6 +87,7 @@
           <td>{{ tasks.taskStatus }}</td>
           <td>{{ tasks.price }}</td>
           <td>{{ tasks.approve }}</td>
+          <td>{{ tasks.name }}</td>
           <td class="text-end">
             <div class="btn-group">
               <button type="submit" [routerLink]="['/tasks', tasks.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
@@ -93,10 +100,10 @@
                 <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
               </button>
 
-              <button type="submit" (click)="delete(tasks)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-              </button>
+              <!--              <button type="submit" (click)="delete(tasks)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">-->
+              <!--                <fa-icon icon="times"></fa-icon>-->
+              <!--                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>-->
+              <!--              </button>-->
             </div>
           </td>
         </tr>

@@ -5,6 +5,7 @@ export interface ITasks {
   taskStatus?: string | null;
   price?: number | null;
   approve?: boolean | null;
+  name?: string | null;
 }
 
 export type NewTasks = Omit<ITasks, 'id'> & { id: null };

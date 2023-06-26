@@ -22,7 +22,8 @@
       "taskName": "Task Name",
       "taskStatus": "Task Status",
       "price": "Price",
-      "approve": "Approve"
+      "approve": "Approve",
+      "name": "Name"
     }
   }
 }

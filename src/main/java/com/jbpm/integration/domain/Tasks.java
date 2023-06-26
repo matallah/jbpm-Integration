@@ -35,6 +35,9 @@ public class Tasks implements Serializable {
     @Column(name = "approve")
     private Boolean approve;
 
+    @Column(name = "name")
+    private String name;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -115,6 +118,19 @@ public class Tasks implements Serializable {
         this.approve = approve;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+    public Tasks name(String name) {
+        this.setName(name);
+        return this;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -144,6 +160,7 @@ public class Tasks implements Serializable {
             ", taskStatus='" + getTaskStatus() + "'" +
             ", price=" + getPrice() +
             ", approve='" + getApprove() + "'" +
+            ", name='" + getName() + "'" +
             "}";
     }
 }

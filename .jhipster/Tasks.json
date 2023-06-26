@@ -22,6 +22,11 @@
     {
       "fieldName": "approve",
       "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": []
     }
   ],
   "name": "Tasks",

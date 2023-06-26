@@ -12,38 +12,60 @@
           <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
+        <fieldset disabled>
+          <div class="mb-3">
+            <label class="form-label" jhiTranslate="jBpmApp.tasks.taskId" for="field_taskId">Task Id</label>
+            <input
+              [readonly]="true"
+              type="number"
+              class="form-control"
+              name="taskId"
+              id="field_taskId"
+              data-cy="taskId"
+              formControlName="taskId"
+            />
+          </div>
+          <div class="mb-3">
+            <label class="form-label" jhiTranslate="jBpmApp.tasks.taskName" for="field_taskName">Task Name</label>
+            <input
+              type="text"
+              readonly
+              class="form-control"
+              name="taskName"
+              id="field_taskName"
+              data-cy="taskName"
+              formControlName="taskName"
+            />
+          </div>
+          <div class="mb-3">
+            <label class="form-label" jhiTranslate="jBpmApp.tasks.taskStatus" for="field_taskStatus">Task Status</label>
+            <input
+              type="text"
+              class="form-control"
+              name="taskStatus"
+              id="field_taskStatus"
+              data-cy="taskStatus"
+              formControlName="taskStatus"
+            />
+          </div>
+        </fieldset>
+        <fieldset [disabled]="editForm.controls['taskName'].value != 'Payment details'">
+          <div class="mb-3">
+            <label class="form-label" jhiTranslate="jBpmApp.tasks.name" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+          </div>
 
-        <div class="mb-3">
-          <label class="form-label" jhiTranslate="jBpmApp.tasks.taskId" for="field_taskId">Task Id</label>
-          <input type="number" class="form-control" name="taskId" id="field_taskId" data-cy="taskId" formControlName="taskId" />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" jhiTranslate="jBpmApp.tasks.taskName" for="field_taskName">Task Name</label>
-          <input type="text" class="form-control" name="taskName" id="field_taskName" data-cy="taskName" formControlName="taskName" />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" jhiTranslate="jBpmApp.tasks.taskStatus" for="field_taskStatus">Task Status</label>
-          <input
-            type="text"
-            class="form-control"
-            name="taskStatus"
-            id="field_taskStatus"
-            data-cy="taskStatus"
-            formControlName="taskStatus"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" jhiTranslate="jBpmApp.tasks.price" for="field_price">Price</label>
-          <input type="number" class="form-control" name="price" id="field_price" data-cy="price" formControlName="price" />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" jhiTranslate="jBpmApp.tasks.approve" for="field_approve">Approve</label>
-          <input type="checkbox" class="form-check" name="approve" id="field_approve" data-cy="approve" formControlName="approve" />
-        </div>
+          <div class="mb-3">
+            <label class="form-label" jhiTranslate="jBpmApp.tasks.price" for="field_price">Price</label>
+            <input type="number" class="form-control" name="price" id="field_price" data-cy="price" formControlName="price" />
+          </div>
+        </fieldset>
+        <fieldset [hidden]="editForm.controls['taskName'].value === 'Payment details'">
+          <div class="mb-3">
+            <label class="form-label" jhiTranslate="jBpmApp.tasks.approve" for="field_approve">Approve</label>
+            <input type="checkbox" class="form-check" name="approve" id="field_approve" data-cy="approve" formControlName="approve" />
+          </div>
+        </fieldset>
       </div>
 
       <div>

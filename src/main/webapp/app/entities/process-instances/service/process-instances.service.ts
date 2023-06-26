@@ -47,6 +47,11 @@ export class ProcessInstancesService {
     return this.http.get<IProcessInstances[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
+  query2(req?: any): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http.get<IProcessInstances[]>(this.resourceUrl + '-new', { params: options, observe: 'response' });
+  }
+
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }

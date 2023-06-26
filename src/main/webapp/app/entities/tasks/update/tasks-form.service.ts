@@ -23,6 +23,7 @@ type TasksFormGroupContent = {
   taskStatus: FormControl<ITasks['taskStatus']>;
   price: FormControl<ITasks['price']>;
   approve: FormControl<ITasks['approve']>;
+  name: FormControl<ITasks['name']>;
 };
 
 export type TasksFormGroup = FormGroup<TasksFormGroupContent>;
@@ -47,6 +48,7 @@ export class TasksFormService {
       taskStatus: new FormControl(tasksRawValue.taskStatus),
       price: new FormControl(tasksRawValue.price),
       approve: new FormControl(tasksRawValue.approve),
+      name: new FormControl(tasksRawValue.name),
     });
   }
 

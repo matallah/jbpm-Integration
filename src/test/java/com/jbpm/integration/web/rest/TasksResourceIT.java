@@ -46,6 +46,9 @@ class TasksResourceIT {
     private static final Boolean DEFAULT_APPROVE = false;
     private static final Boolean UPDATED_APPROVE = true;
 
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/tasks";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -75,7 +78,8 @@ class TasksResourceIT {
             .taskName(DEFAULT_TASK_NAME)
             .taskStatus(DEFAULT_TASK_STATUS)
             .price(DEFAULT_PRICE)
-            .approve(DEFAULT_APPROVE);
+            .approve(DEFAULT_APPROVE)
+            .name(DEFAULT_NAME);
         return tasks;
     }
 
@@ -91,7 +95,8 @@ class TasksResourceIT {
             .taskName(UPDATED_TASK_NAME)
             .taskStatus(UPDATED_TASK_STATUS)
             .price(UPDATED_PRICE)
-            .approve(UPDATED_APPROVE);
+            .approve(UPDATED_APPROVE)
+            .name(UPDATED_NAME);
         return tasks;
     }
 
@@ -118,6 +123,7 @@ class TasksResourceIT {
         assertThat(testTasks.getTaskStatus()).isEqualTo(DEFAULT_TASK_STATUS);
         assertThat(testTasks.getPrice()).isEqualByComparingTo(DEFAULT_PRICE);
         assertThat(testTasks.getApprove()).isEqualTo(DEFAULT_APPROVE);
+        assertThat(testTasks.getName()).isEqualTo(DEFAULT_NAME);
     }
 
     @Test
@@ -154,7 +160,8 @@ class TasksResourceIT {
             .andExpect(jsonPath("$.[*].taskName").value(hasItem(DEFAULT_TASK_NAME)))
             .andExpect(jsonPath("$.[*].taskStatus").value(hasItem(DEFAULT_TASK_STATUS)))
             .andExpect(jsonPath("$.[*].price").value(hasItem(sameNumber(DEFAULT_PRICE))))
-            .andExpect(jsonPath("$.[*].approve").value(hasItem(DEFAULT_APPROVE.booleanValue())));
+            .andExpect(jsonPath("$.[*].approve").value(hasItem(DEFAULT_APPROVE.booleanValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)));
     }
 
     @Test
@@ -173,7 +180,8 @@ class TasksResourceIT {
             .andExpect(jsonPath("$.taskName").value(DEFAULT_TASK_NAME))
             .andExpect(jsonPath("$.taskStatus").value(DEFAULT_TASK_STATUS))
             .andExpect(jsonPath("$.price").value(sameNumber(DEFAULT_PRICE)))
-            .andExpect(jsonPath("$.approve").value(DEFAULT_APPROVE.booleanValue()));
+            .andExpect(jsonPath("$.approve").value(DEFAULT_APPROVE.booleanValue()))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME));
     }
 
     @Test
@@ -200,7 +208,8 @@ class TasksResourceIT {
             .taskName(UPDATED_TASK_NAME)
             .taskStatus(UPDATED_TASK_STATUS)
             .price(UPDATED_PRICE)
-            .approve(UPDATED_APPROVE);
+            .approve(UPDATED_APPROVE)
+            .name(UPDATED_NAME);
 
         restTasksMockMvc
             .perform(
@@ -219,6 +228,7 @@ class TasksResourceIT {
         assertThat(testTasks.getTaskStatus()).isEqualTo(UPDATED_TASK_STATUS);
         assertThat(testTasks.getPrice()).isEqualByComparingTo(UPDATED_PRICE);
         assertThat(testTasks.getApprove()).isEqualTo(UPDATED_APPROVE);
+        assertThat(testTasks.getName()).isEqualTo(UPDATED_NAME);
     }
 
     @Test
@@ -289,7 +299,12 @@ class TasksResourceIT {
         Tasks partialUpdatedTasks = new Tasks();
         partialUpdatedTasks.setId(tasks.getId());
 
-        partialUpdatedTasks.taskName(UPDATED_TASK_NAME).taskStatus(UPDATED_TASK_STATUS).price(UPDATED_PRICE).approve(UPDATED_APPROVE);
+        partialUpdatedTasks
+            .taskName(UPDATED_TASK_NAME)
+            .taskStatus(UPDATED_TASK_STATUS)
+            .price(UPDATED_PRICE)
+            .approve(UPDATED_APPROVE)
+            .name(UPDATED_NAME);
 
         restTasksMockMvc
             .perform(
@@ -308,6 +323,7 @@ class TasksResourceIT {
         assertThat(testTasks.getTaskStatus()).isEqualTo(UPDATED_TASK_STATUS);
         assertThat(testTasks.getPrice()).isEqualByComparingTo(UPDATED_PRICE);
         assertThat(testTasks.getApprove()).isEqualTo(UPDATED_APPROVE);
+        assertThat(testTasks.getName()).isEqualTo(UPDATED_NAME);
     }
 
     @Test
@@ -327,7 +343,8 @@ class TasksResourceIT {
             .taskName(UPDATED_TASK_NAME)
             .taskStatus(UPDATED_TASK_STATUS)
             .price(UPDATED_PRICE)
-            .approve(UPDATED_APPROVE);
+            .approve(UPDATED_APPROVE)
+            .name(UPDATED_NAME);
 
         restTasksMockMvc
             .perform(
@@ -346,6 +363,7 @@ class TasksResourceIT {
         assertThat(testTasks.getTaskStatus()).isEqualTo(UPDATED_TASK_STATUS);
         assertThat(testTasks.getPrice()).isEqualByComparingTo(UPDATED_PRICE);
         assertThat(testTasks.getApprove()).isEqualTo(UPDATED_APPROVE);
+        assertThat(testTasks.getName()).isEqualTo(UPDATED_NAME);
     }
 
     @Test
